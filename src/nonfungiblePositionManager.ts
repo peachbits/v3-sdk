@@ -347,7 +347,7 @@ export abstract class NonfungiblePositionManager {
     // construct a partial position with a percentage of liquidity
     const partialPosition = new Position({
       pool: position.pool,
-      liquidity: options.liquidityPercentage.multiply(position.liquidity).quotient,
+      liquidity: options.liquidityPercentage.multiply(position.liquidity.toString()).quotient,
       tickLower: position.tickLower,
       tickUpper: position.tickUpper
     })
@@ -399,7 +399,7 @@ export abstract class NonfungiblePositionManager {
       })
     )
 
-    if (options.liquidityPercentage.equalTo(ONE)) {
+    if (JSBI.EQ(options.liquidityPercentage, ONE)) {
       if (options.burnToken) {
         calldatas.push(NonfungiblePositionManager.INTERFACE.encodeFunctionData('burn', [tokenId]))
       }
